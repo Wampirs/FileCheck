@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="FileCheck.Views.TemplatePrewiew"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FileCheck.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" Background="Wheat">
+            <DockPanel Margin="10 0 0 0" DockPanel.Dock="Left">
+                <TextBlock DockPanel.Dock="Top"
+                    Text="{Binding Template.FileCount, StringFormat={}Всього файлів: {0}}" FontSize="14"/>
+                <TextBlock DockPanel.Dock="Top" 
+                    Text="{Binding Template.DirCount, StringFormat={}Всього папок: {0}}" FontSize="14"/>
+            </DockPanel>
+            <Button HorizontalAlignment="Right" Margin="10 0 10 0"
+                    Width="150" Height="40"
+                    Command="{Binding CreateTemplate}" Content="Зберегти шаблон"/>
+        </DockPanel>
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Template.Items}"
+                  CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" AutoGenerateColumns="False" 
+                  IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn Header="" IsReadOnly="True" Width="0.07*" Binding="{Binding IsFolder}" ElementStyle="{StaticResource FolderCheckbox}"/>
+                <DataGridTextColumn Header="Назва" IsReadOnly="True" Width="*" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Шлях" IsReadOnly="True" Width="*" Binding="{Binding Path}"/>
+            </DataGrid.Columns>
+            
+        </DataGrid>
+    </Grid>
+</UserControl>
