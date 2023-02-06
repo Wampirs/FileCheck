@@ -7,5 +7,7 @@
         public bool IsFolder { get; set; }
 
         public string Path { get; set; }
+
+        public string Hash { get; set; }
     }
 }

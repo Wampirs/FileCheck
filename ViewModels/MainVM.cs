@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -14,6 +16,13 @@ namespace FileCheck.ViewModels
 {
     public class MainVM : BaseVM
     {
+        private bool useHash;
+        public bool UseHash
+        {
+            get => useHash;
+            set => Set(ref useHash, value);
+        }
+
         private string pathToDirectory;
         public string PathToDirectory
         {
@@ -54,7 +63,7 @@ namespace FileCheck.ViewModels
                 return createTemplate;
             }
         }
-        private void OnCreateTemplateExecuted(object o)
+        private async void OnCreateTemplateExecuted(object o)
         {
             var dialog = new CommonOpenFileDialog();
             dialog.IsFolderPicker = true;
@@ -62,13 +71,13 @@ namespace FileCheck.ViewModels
             if (res != CommonFileDialogResult.Ok) return;
 
             string path = dialog.FileName;
-            var template = GetTemplate(path);
+            var template = await GetTemplate(path,true);
 
             TemplatePreviewVM vm = new TemplatePreviewVM
             {
                 Template = template
             };
-            CustomDialog.ShowDialog(vm);
+            new CustomDialog().ShowDialog(vm);
         }
         private bool CanCreateTemplateExecute(object o) => true;
         #endregion
@@ -83,7 +92,7 @@ namespace FileCheck.ViewModels
                 return selectPath;
             }
         }
-        private void OnSelectPathExecuted(object o)
+        private async void OnSelectPathExecuted(object o)
         {
             Button? button = o as Button;
             if (button == null) return;
@@ -104,7 +113,7 @@ namespace FileCheck.ViewModels
                 if (button.Name == "SelectDirectory")
                 {
                     PathToDirectory = dialog.FileName;
-                    SelectedDir = GetTemplate(dialog.FileName);
+                    SelectedDir = await GetTemplate(dialog.FileName, UseHash);
                 }
                 if (button.Name == "SelectTemplate") PathToTemplate = dialog.FileName;
             }
@@ -165,37 +174,59 @@ namespace FileCheck.ViewModels
                 MessageBox.Show("Перевірку пройдено\nПапка відповідає наданому шаблону");
                 return;
             }
-            CustomDialog.ShowDialog(checkResult);
+            new CustomDialog().ShowDialog(checkResult);
 
         }
         private bool CanCheckTemplateExecute(object o) => true;
         #endregion
 
-        private FsTemplate GetTemplate(string path)
+        private async Task<FsTemplate> GetTemplate(string path, bool useHash)
         {
-            List<string> directories = Directory.GetDirectories(path, "", SearchOption.AllDirectories).ToList();
-            List<string> files = Directory.GetFiles(path, "", SearchOption.AllDirectories).ToList();
+            if (useHash)
+            {
+                WaitWindow.ShowWaiter();
+            }
             FsTemplate template = new FsTemplate();
 
-            foreach (string dir in directories)
+            Task compute = new Task(() =>
             {
-                FsItem item = new FsItem();
-                item.IsFolder = true;
-                item.Path = Path.GetRelativePath(path, dir);
-                item.Name = Path.GetFileName(dir);
-                template.Items.Add(item);
-                template.DirCount++;
-            }
-            foreach (string file in files)
-            {
-                FsItem item = new FsItem();
-                item.IsFolder = false;
-                item.Name = Path.GetFileName(file);
-                item.Path = Path.GetRelativePath(path, file);
-                template.Items.Add(item);
-                template.FileCount++;
-            }
+                List<string> directories = Directory.GetDirectories(path, "", SearchOption.AllDirectories).ToList();
+                List<string> files = Directory.GetFiles(path, "", SearchOption.AllDirectories).ToList();
+
+                foreach (string dir in directories)
+                {
+                    FsItem item = new FsItem();
+                    item.IsFolder = true;
+                    item.Path = Path.GetRelativePath(path, dir);
+                    item.Name = Path.GetFileName(dir);
+                    template.Items.Add(item);
+                    template.DirCount++;
+                }
+                foreach (string file in files)
+                {
+                    FsItem item = new FsItem();
+                    item.IsFolder = false;
+                    item.Name = Path.GetFileName(file);
+                    item.Path = Path.GetRelativePath(path, file);
+                    if(useHash) item.Hash = GetHash(file);
+                    template.Items.Add(item);
+                    template.FileCount++;
+                }
+            });
+            compute.Start();
+            await compute;
+            WaitWindow.HideWaiter();
             return template;
+        }
+
+        private string GetHash(string path)
+        {
+            using (var md5 = MD5.Create())
+            {
+                byte [] bytes = File.ReadAllBytes(path);
+                md5.TransformFinalBlock(bytes, 0, bytes.Length);
+                return BitConverter.ToString(md5.Hash).Replace("-", "").ToLower();
+            }
         }
     }
 }

@@ -11,8 +11,6 @@ namespace FileCheck.Models
 
         public int DirCount { get; set; }
 
-        public int ElementCount { get; set; }
-
         public CheckResult Check(FsTemplate template)
         {
             var result = new CheckResult();

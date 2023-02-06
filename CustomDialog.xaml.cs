@@ -21,17 +21,12 @@ namespace FileCheck
             Owner = actWin;
         }
 
-        public void Close(bool res)
+        public bool? ShowDialog(BaseVM vm)
         {
-            this.DialogResult = res;
-            base.Close();
+            this.DataContext = vm;
+            return base.ShowDialog();
         }
 
-        public static bool? ShowDialog(BaseVM vm)
-        {
-            var dial = new CustomDialog();
-            dial.DataContext = vm;
-            return dial.ShowDialog();
-        }
+
     }
 }
