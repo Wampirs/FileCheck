@@ -8,6 +8,6 @@
 
         public string Path { get; set; }
 
-        public string Hash { get; set; }
+        public string Hash { get; set; } = "-";
     }
 }

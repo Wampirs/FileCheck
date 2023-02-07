@@ -11,6 +11,10 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
         <DockPanel Grid.Column="0">
             <TextBlock Text="Зайві елементи" FontSize="14"
                        DockPanel.Dock="Top" HorizontalAlignment="Center" Margin="0 0 0 5"/>
@@ -19,7 +23,7 @@
                       GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="Gray"
                       IsReadOnly="True">
                 <DataGrid.Columns>
-                    <DataGridCheckBoxColumn Header="" IsReadOnly="True" Width="0.07*" Binding="{Binding IsFolder}" ElementStyle="{StaticResource FolderCheckbox}"/>
+                    <DataGridCheckBoxColumn Header="" IsReadOnly="True" Width="25" Binding="{Binding IsFolder}" ElementStyle="{StaticResource FolderCheckbox}"/>
                     <DataGridTextColumn Header="Назва" IsReadOnly="True" Width="*" Binding="{Binding Name}"/>
                     <DataGridTextColumn Header="Шлях" IsReadOnly="True" Width="*" Binding="{Binding Path}"/>
                 </DataGrid.Columns>
@@ -34,11 +38,25 @@
                       GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="Gray"
                       IsReadOnly="True">
                 <DataGrid.Columns>
-                    <DataGridCheckBoxColumn Header="" IsReadOnly="True" Width="0.07*" Binding="{Binding IsFolder}" ElementStyle="{StaticResource FolderCheckbox}"/>
+                    <DataGridCheckBoxColumn Header="" IsReadOnly="True" Width="25" Binding="{Binding IsFolder}" ElementStyle="{StaticResource FolderCheckbox}"/>
                     <DataGridTextColumn Header="Назва" IsReadOnly="True" Width="*" Binding="{Binding Name}"/>
                     <DataGridTextColumn Header="Шлях" IsReadOnly="True" Width="*" Binding="{Binding Path}"/>
                 </DataGrid.Columns>
 
+            </DataGrid>
+        </DockPanel>
+        <DockPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1">
+            <TextBlock Text="Хеші ,що не співпали" FontSize="14"
+                       DockPanel.Dock="Top" HorizontalAlignment="Center" Margin="0 0 0 5"/>
+            <DataGrid Margin="10" ItemsSource="{Binding HashValues}"
+                      CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" AutoGenerateColumns="False" HeadersVisibility="Column" ColumnWidth="*"
+                      GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="Gray"
+                      IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Шлях" IsReadOnly="True" Width="*" Binding="{Binding Key}"/>
+                    <DataGridTextColumn Header="Поточний хеш" IsReadOnly="True" Width="*" Binding="{Binding Value.Item1}"/>
+                    <DataGridTextColumn Header="Очікуваний хеш" IsReadOnly="True" Width="*" Binding="{Binding Value.Item2}"/>
+                </DataGrid.Columns>
             </DataGrid>
         </DockPanel>
     </Grid>

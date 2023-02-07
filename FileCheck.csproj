@@ -19,6 +19,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\Cross.png" />
     <None Remove="Images\Folder.png" />
     <None Remove="Images\Load.png" />
     <None Remove="Images\Logo.png" />
@@ -33,6 +34,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\Cross.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\Folder.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>

@@ -5,8 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FileCheck"
         mc:Ignorable="d"
-        Title="CustomDialog" Height="450" Width="800">
-    <Grid>
-        <ContentControl Content="{Binding . }"/>
-    </Grid>
+        Height="450" Width="800" Background="Transparent" WindowStyle="None" AllowsTransparency="True">
+    <DockPanel Margin="10">
+        <DockPanel.Effect>
+            <DropShadowEffect BlurRadius="10" Color="Black" Opacity="0.5" Direction="-90"/>
+        </DockPanel.Effect>
+        <Border Height="20" Background="LightBlue" DockPanel.Dock="Top" CornerRadius="15 15 0 0 "
+                MouseLeftButtonDown="Border_MouseLeftButtonDown">
+            <Grid>
+                <TextBlock/>
+                <Button Width="15" Height="15" HorizontalAlignment="Right" Margin="0 0 5 0"
+                        Style="{StaticResource WithImage}"
+                        Click="Button_Click">
+                    <Image Source="\Images\Cross.png"/>
+                </Button>
+            </Grid>
+        </Border>
+        <Border Background="White" CornerRadius="0 0 15 15">
+            <ContentControl Content="{Binding . }" />
+        </Border>
+    </DockPanel>
 </Window>

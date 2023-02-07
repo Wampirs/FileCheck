@@ -16,11 +16,23 @@ namespace FileCheck.ViewModels
 {
     public class MainVM : BaseVM
     {
+        public MainVM()
+        {
+            OnUseHashChanged += async (newVal) => 
+            {
+                if (PathToDirectory != null) SelectedDir = await GetTemplate(PathToDirectory, newVal);
+            };
+        }
+
         private bool useHash;
         public bool UseHash
         {
             get => useHash;
-            set => Set(ref useHash, value);
+            set
+            {
+                Set(ref useHash, value);
+                OnUseHashChanged.Invoke(value);
+            }
         }
 
         private string pathToDirectory;
@@ -160,7 +172,7 @@ namespace FileCheck.ViewModels
                         MessageBox.Show("Невдалося відновити шаблон");
                         return;
                     }
-                    checkResult = SelectedDir.Check(fileTemplate);
+                    checkResult = SelectedDir.Check(fileTemplate,UseHash);
                 }
             }
             catch (Exception ex)
@@ -208,7 +220,18 @@ namespace FileCheck.ViewModels
                     item.IsFolder = false;
                     item.Name = Path.GetFileName(file);
                     item.Path = Path.GetRelativePath(path, file);
-                    if(useHash) item.Hash = GetHash(file);
+                    if (useHash)
+                        try
+                        {
+                            using (FileStream fs = new FileStream(file, FileMode.Open))
+                                item.Hash = GetMD5Hash(fs);
+                        } 
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Сталася помилка при читанні файлів");
+                            MessageBox.Show(ex.Message);
+                            return;
+                        }
                     template.Items.Add(item);
                     template.FileCount++;
                 }
@@ -219,14 +242,16 @@ namespace FileCheck.ViewModels
             return template;
         }
 
-        private string GetHash(string path)
+        private string GetMD5Hash(Stream s)
         {
             using (var md5 = MD5.Create())
             {
-                byte [] bytes = File.ReadAllBytes(path);
-                md5.TransformFinalBlock(bytes, 0, bytes.Length);
+                md5.ComputeHash(s);
                 return BitConverter.ToString(md5.Hash).Replace("-", "").ToLower();
             }
         }
+
+        private delegate void OnUseHashChange(bool changedTo);
+        private event OnUseHashChange OnUseHashChanged;
     }
 }

@@ -6,21 +6,27 @@
         xmlns:local="clr-namespace:FileCheck"
         mc:Ignorable="d"
         Title="WaitWindow" Height="300" Width="300" WindowStartupLocation="CenterOwner" 
-        ShowInTaskbar="False" WindowStyle="None" ResizeMode="NoResize">
-    <Grid>
-        <Image Source="\Images\Load.png" Height="100" Width="100">
-            <Image.RenderTransform>
-                <RotateTransform x:Name="rotate" CenterX="50" CenterY="50"/>
-            </Image.RenderTransform>
-            <Image.Triggers>
-                <EventTrigger RoutedEvent="Loaded">
-                    <BeginStoryboard>
-                        <Storyboard RepeatBehavior="Forever">
-                            <DoubleAnimation Storyboard.TargetName="rotate" Storyboard.TargetProperty="Angle" By="360" Duration="0:0:2"/>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </Image.Triggers>
-        </Image>
+        ShowInTaskbar="False" WindowStyle="None" ResizeMode="NoResize" 
+        Background="Transparent" AllowsTransparency="True">
+    <Grid Margin="15" >
+        <Grid.Effect>
+            <DropShadowEffect BlurRadius="10" Opacity="0.5" Direction="-90" Color="Black"/>
+        </Grid.Effect>
+        <Border CornerRadius="15" Background="White">
+            <Image Source="\Images\Load.png" Height="100" Width="100">
+                <Image.RenderTransform>
+                    <RotateTransform x:Name="rotate" CenterX="50" CenterY="50"/>
+                </Image.RenderTransform>
+                <Image.Triggers>
+                    <EventTrigger RoutedEvent="Loaded">
+                        <BeginStoryboard>
+                            <Storyboard RepeatBehavior="Forever">
+                                <DoubleAnimation Storyboard.TargetName="rotate" Storyboard.TargetProperty="Angle" By="360" Duration="0:0:2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Image.Triggers>
+            </Image>
+        </Border>
     </Grid>
 </Window>

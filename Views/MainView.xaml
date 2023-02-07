@@ -20,47 +20,52 @@
             </Grid.ColumnDefinitions>
             <Image Grid.Column="0" Margin="10"
                 Source="..\Images\Logo.png" />
-            <StackPanel Grid.Column="1" Orientation="Horizontal">
-                <StackPanel Margin=" 10 0 0 0" VerticalAlignment="Center">
-                    <TextBlock HorizontalAlignment="Center"
+            <Border Grid.Column="1" Height="70" Margin="5"
+                    BorderBrush="LightGray" BorderThickness="1.5" CornerRadius="10">
+                <StackPanel Orientation="Horizontal" >
+                    <StackPanel Margin=" 10 0 0 0" VerticalAlignment="Center">
+                        <TextBlock HorizontalAlignment="Center"
                            Text="Шлях до папки:" FontSize="18"/>
-                    <TextBox Height="30" Width="200" HorizontalAlignment="Center"
+                        <TextBox Height="30" Width="200" HorizontalAlignment="Center"
                              Text="{Binding PathToDirectory}"
                              TextWrapping="NoWrap" FontSize="16" IsReadOnly="True">
-                        <TextBox.ToolTip>
-                            <ToolTip Content="{Binding PathToDirectory}" />
-                        </TextBox.ToolTip>
-                    </TextBox>
-                </StackPanel>
-                <Button Margin="5 20 0 0"
+                            <TextBox.ToolTip>
+                                <ToolTip Content="{Binding PathToDirectory}" />
+                            </TextBox.ToolTip>
+                        </TextBox>
+                    </StackPanel>
+                    <Button Margin="5 20 0 0" DockPanel.Dock="Top"
                         Width="30" Height="30"
                         Style="{StaticResource WithImage}"
                         Command="{Binding SelectPath}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"
                         Name="SelectDirectory">
-                    <Image Source="..\Images\Folder.png" Stretch="Fill"/>
-                </Button>
-            </StackPanel>
-
-            <StackPanel Grid.Column="2" Orientation="Horizontal">
-                <StackPanel Margin=" 10 0 0 0" VerticalAlignment="Center">
-                    <TextBlock HorizontalAlignment="Center"
-                           Text="Шлях до шаблону:" FontSize="18"/>
-                    <TextBox Height="30" Width="200" HorizontalAlignment="Center"
-                             Text="{Binding PathToTemplate}"
-                             TextWrapping="NoWrap" FontSize="16" IsReadOnly="True">
-                        <TextBox.ToolTip>
-                            <ToolTip Content="{Binding PathToTemplate}" />
-                        </TextBox.ToolTip>
-                    </TextBox>
+                        <Image Source="..\Images\Folder.png" Stretch="Fill"/>
+                    </Button>
                 </StackPanel>
-                <Button Margin="5 20 0 0"
-                        Width="30" Height="30"
-                        Style="{StaticResource WithImage}"
-                        Command="{Binding SelectPath}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"
-                        Name="SelectTemplate">
-                    <Image Source="..\Images\Folder.png" Stretch="Fill"/>
-                </Button>
-            </StackPanel>
+            </Border>
+            <Border Grid.Column="2" Height="70" Margin="5"
+                    BorderBrush="LightGray" BorderThickness="1.5" CornerRadius="10">
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Margin=" 10 0 0 0" VerticalAlignment="Center">
+                        <TextBlock HorizontalAlignment="Center"
+                               Text="Шлях до шаблону:" FontSize="18"/>
+                        <TextBox Height="30" Width="200" HorizontalAlignment="Center"
+                                 Text="{Binding PathToTemplate}"
+                                 TextWrapping="NoWrap" FontSize="16" IsReadOnly="True">
+                            <TextBox.ToolTip>
+                                <ToolTip Content="{Binding PathToTemplate}" />
+                            </TextBox.ToolTip>
+                        </TextBox>
+                    </StackPanel>
+                    <Button Margin="5 20 0 0"
+                            Width="30" Height="30"
+                            Style="{StaticResource WithImage}"
+                            Command="{Binding SelectPath}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"
+                            Name="SelectTemplate">
+                        <Image Source="..\Images\Folder.png" Stretch="Fill"/>
+                    </Button>
+                </StackPanel>
+            </Border>
             <StackPanel Grid.Column="3" Margin="10 10 10 0" Orientation="Vertical">
                 <Button Content="Створити шаблон" Height="25" Width="140" 
                         Command="{Binding CreateTemplate}"/>
@@ -69,9 +74,10 @@
                 <CheckBox IsChecked="{Binding UseHash}" Content="Звіряти хеш"
                           Margin="0 5 0 0"/>
             </StackPanel>
+            
         </Grid>
-        <Grid Grid.Row="1" Background="LightBlue">
-            <DataGrid Margin="10" ItemsSource="{Binding SelectedDir.Items}"
+        <Grid Grid.Row="1" Background="LightBlue" Margin="10">
+            <DataGrid ItemsSource="{Binding SelectedDir.Items}"
                       CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" AutoGenerateColumns="False" HeadersVisibility="Column" ColumnWidth="*"
                       GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="Gray" SelectionUnit="FullRow"
                       IsReadOnly="True">
@@ -80,7 +86,6 @@
                     <DataGridTextColumn Header="Назва" IsReadOnly="True" Width="*" Binding="{Binding Name}"/>
                     <DataGridTextColumn Header="Шлях" IsReadOnly="True" Width="*" Binding="{Binding Path}"/>
                 </DataGrid.Columns>
-
             </DataGrid>
         </Grid>
     </Grid>

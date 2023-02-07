@@ -22,8 +22,8 @@
                     Width="150" Height="40"
                     Command="{Binding CreateTemplate}" Content="Зберегти шаблон"/>
         </DockPanel>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Template.Items}"
-                  CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" AutoGenerateColumns="False" 
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Template.Items}" Margin="5" BorderThickness="1" 
+                  CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" AutoGenerateColumns="False" HeadersVisibility="Column"
                   IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn Header="" IsReadOnly="True" Width="0.07*" Binding="{Binding IsFolder}" ElementStyle="{StaticResource FolderCheckbox}"/>
