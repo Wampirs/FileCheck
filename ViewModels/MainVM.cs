@@ -16,23 +16,12 @@ namespace FileCheck.ViewModels
 {
     public class MainVM : BaseVM
     {
-        public MainVM()
-        {
-            OnUseHashChanged += async (newVal) => 
-            {
-                if (PathToDirectory != null) SelectedDir = await GetTemplate(PathToDirectory, newVal);
-            };
-        }
 
         private bool useHash;
         public bool UseHash
         {
             get => useHash;
-            set
-            {
-                Set(ref useHash, value);
-                OnUseHashChanged.Invoke(value);
-            }
+            set => Set(ref useHash, value);
         }
 
         private string pathToDirectory;
@@ -125,7 +114,7 @@ namespace FileCheck.ViewModels
                 if (button.Name == "SelectDirectory")
                 {
                     PathToDirectory = dialog.FileName;
-                    SelectedDir = await GetTemplate(dialog.FileName, UseHash);
+                    SelectedDir = await GetTemplate(dialog.FileName, false);
                 }
                 if (button.Name == "SelectTemplate") PathToTemplate = dialog.FileName;
             }
@@ -143,10 +132,11 @@ namespace FileCheck.ViewModels
                 return checkTemplate;
             }
         }
-        private void OnCheckTemplateExecuted(object o)
+        private async void OnCheckTemplateExecuted(object o)
         {
+
             CheckResult checkResult;
-            if (PathToTemplate == null && PathToDirectory == null)
+            if (PathToTemplate == null || PathToDirectory == null)
             {
                 MessageBox.Show("Не обрано шлях до папки або шаблону");
                 return;
@@ -163,6 +153,7 @@ namespace FileCheck.ViewModels
             }
             try
             {
+                SelectedDir = await GetTemplate(PathToDirectory,UseHash);
                 using (FileStream sr = new FileStream(PathToTemplate, FileMode.Open))
                 {
                     XmlSerializer serializer = new XmlSerializer(typeof(FsTemplate));
@@ -250,8 +241,5 @@ namespace FileCheck.ViewModels
                 return BitConverter.ToString(md5.Hash).Replace("-", "").ToLower();
             }
         }
-
-        private delegate void OnUseHashChange(bool changedTo);
-        private event OnUseHashChange OnUseHashChanged;
     }
 }
