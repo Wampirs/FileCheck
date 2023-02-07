@@ -32,9 +32,19 @@ namespace FileCheck
             DragMove();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void MaxButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (WindowState == WindowState.Normal)
+            {
+                WindowState = WindowState.Maximized;
+                return;
+            }
+            WindowState = WindowState.Normal;
         }
     }
 }

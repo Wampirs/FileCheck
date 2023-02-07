@@ -14,14 +14,28 @@ namespace FileCheck
             this.DataContext = VMLocator.Main;
         }
 
+        private CornerRadius bodyCorner;
+        public CornerRadius topBarCorner;
+
+
         private void Border_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             DragMove();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void MaxButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (WindowState == WindowState.Normal)
+            {
+                WindowState = WindowState.Maximized;
+                return;
+            }
+            WindowState = WindowState.Normal;
         }
     }
 }

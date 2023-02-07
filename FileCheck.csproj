@@ -23,6 +23,7 @@
     <None Remove="Images\Folder.png" />
     <None Remove="Images\Load.png" />
     <None Remove="Images\Logo.png" />
+    <None Remove="Images\Maximize.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,6 +45,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\Logo.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Maximize.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

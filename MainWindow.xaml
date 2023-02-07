@@ -12,15 +12,22 @@
             </DockPanel.Effect>
             <Border Height="20" Background="LightBlue" DockPanel.Dock="Top" CornerRadius="15 15 0 0 "
                     MouseLeftButtonDown="Border_MouseLeftButtonDown">
-                <Grid>
-                    <TextBlock/>
-                    <Button Width="15" Height="15" HorizontalAlignment="Right" Margin="0 0 5 0"
+            <Grid>
+                <TextBlock/>
+                <StackPanel HorizontalAlignment="Right" Margin="0 2 5 0" Orientation="Horizontal">
+                    <Button Width="15" Height="15"
                             Style="{StaticResource WithImage}"
-                            Click="Button_Click">
+                            Click="MaxButton_Click">
+                        <Image Source="\Images\Maximize.png"/>
+                    </Button>
+                    <Button Width="15" Height="15" Margin="5 0 0 0"
+                            Style="{StaticResource WithImage}"
+                            Click="CloseButton_Click">
                         <Image Source="\Images\Cross.png"/>
                     </Button>
-                </Grid>
-            </Border>
+                </StackPanel>
+            </Grid>
+        </Border>
         <Border Background="LightBlue" CornerRadius="0 0 15 15">
                 <ContentControl Content="{Binding . }"/>
             </Border>

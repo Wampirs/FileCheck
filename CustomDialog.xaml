@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FileCheck"
         mc:Ignorable="d"
-        Height="450" Width="800" Background="Transparent" WindowStyle="None" AllowsTransparency="True">
+        Height="450" Width="800" Background="Transparent" WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResize" >
     <DockPanel Margin="10">
         <DockPanel.Effect>
             <DropShadowEffect BlurRadius="10" Color="Black" Opacity="0.5" Direction="-90"/>
@@ -14,15 +14,22 @@
                 MouseLeftButtonDown="Border_MouseLeftButtonDown">
             <Grid>
                 <TextBlock/>
-                <Button Width="15" Height="15" HorizontalAlignment="Right" Margin="0 0 5 0"
-                        Style="{StaticResource WithImage}"
-                        Click="Button_Click">
-                    <Image Source="\Images\Cross.png"/>
-                </Button>
+                <StackPanel HorizontalAlignment="Right" Margin="0 2 5 0" Orientation="Horizontal">
+                    <Button Width="15" Height="15"
+                            Style="{StaticResource WithImage}"
+                            Click="MaxButton_Click">
+                        <Image Source="\Images\Maximize.png"/>
+                    </Button>
+                    <Button Width="15" Height="15" Margin="5 0 0 0"
+                            Style="{StaticResource WithImage}"
+                            Click="CloseButton_Click">
+                        <Image Source="\Images\Cross.png"/>
+                    </Button>
+                </StackPanel>
             </Grid>
         </Border>
-        <Border Background="White" CornerRadius="0 0 15 15">
-            <ContentControl Content="{Binding . }" />
-        </Border>
+            <Border Background="White" CornerRadius="0 0 15 15">
+                <ContentControl Content="{Binding . }" />
+            </Border>
     </DockPanel>
 </Window>
